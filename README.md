@@ -1,4 +1,4 @@
-# T2MotionAimingWCalib
+# Motion Aiming with Calibration for Titan Two
 
 Sctipt features:
 
