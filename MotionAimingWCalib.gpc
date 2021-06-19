@@ -1,0 +1,757 @@
+#pragma METAINFO("Motion Aiming with Calibration and DualShock 4 Touch Mimic", 1, 1, "mss1988 & teddy18")
+#include <switch.gph>
+
+/*
+<cfgdesc>
+
+[Gyro Aiming Activation]
+byteoffset = 0
+bitsize    = 8
+control    = checkbox
+default    = 0
+item       = On L1/LB
+
+[Gyro Aiming Activation2]
+group      = true
+groupcol = true
+byteoffset = 1
+bitsize    = 8
+control    = checkbox
+default    = 1
+item       = On L2/LT
+
+[Gyro Aiming Activation3]
+group      = true
+groupcol = true
+byteoffset = 2
+bitsize    = 8
+control    = checkbox
+default    = 0
+item       = On R1/RB
+
+[Gyro Aiming Activation4]
+group      = true
+groupcol = true
+byteoffset = 3
+bitsize    = 8
+control    = checkbox
+default    = 1
+item       = On R2/RT
+
+[Gyro Aiming Activation5]
+group      = true
+groupcol = true
+byteoffset = 4
+bitsize    = 8
+control    = checkbox
+default    = 0
+item       = Always On
+
+[Sensitivity]
+group      = false
+shortdesc  = Base sensitivity X
+byteoffset = 5
+bitsize    = 32
+control    = spinboxf
+default    = 3500
+minimum    = 10
+maximum    = 20000
+step       = 1
+decimals   = 2
+
+[SensitivityY]
+group      = true
+groupcol = true
+shortdesc  = Base sensitivity Y
+byteoffset = 9
+bitsize    = 32
+control    = spinboxf
+default    = 3500
+minimum    = 10
+maximum    = 20000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers]
+group      = false
+groupcol = false
+shortdesc  = Active Sensitivity Multiplier:
+byteoffset = 13
+bitsize    = 8
+control    = slider
+default    = 3
+minimum    = 1
+maximum    = 7
+step       = 1
+
+[Sensitivity Multipliers1]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 1:
+byteoffset = 14
+bitsize    = 32
+control    = spinboxf
+default    = 50
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers2]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 2:
+byteoffset = 18
+bitsize    = 32
+control    = spinboxf
+default    = 75
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers3]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 3:
+byteoffset = 22
+bitsize    = 32
+control    = spinboxf
+default    = 100
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers4]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 4:
+byteoffset = 26
+bitsize    = 32
+control    = spinboxf
+default    = 125
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers5]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 5:
+byteoffset = 30
+bitsize    = 32
+control    = spinboxf
+default    = 150
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers6]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 6:
+byteoffset = 34
+bitsize    = 32
+control    = spinboxf
+default    = 175
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Sensitivity Multipliers7]
+group      = true
+groupcol = false
+shortdesc  = Sensitivity Multiplier 7:
+byteoffset = 38
+bitsize    = 32
+control    = spinboxf
+default    = 200
+minimum    = 10
+maximum    = 1000
+step       = 1
+decimals   = 2
+
+[Deadzones]
+group      = false
+shortdesc  = Ignore Gyro if Right Stick X is greater than:
+byteoffset = 42
+bitsize    = 32
+control    = spinboxf
+default    = 300
+minimum    = 0
+maximum    = 1000
+step       = 1
+decimals   = 1
+
+[DeadzonesY]
+group      = true
+groupcol = false
+shortdesc  = Ignore Gyro if Right Stick Y is greater than:
+byteoffset = 46
+bitsize    = 32
+control    = spinboxf
+default    = 300
+minimum    = 0
+maximum    = 1000
+step       = 1
+decimals   = 1
+
+[DeadzonesD]
+group      = true
+groupcol = false
+shortdesc  = Right Stick Diagonal Deadzone:
+byteoffset = 50
+bitsize    = 32
+control    = spinboxf
+default    = 13
+minimum    = 0
+maximum    = 200
+step       = 1
+decimals   = 2
+
+[DeadzonesO]
+group      = true
+groupcol = false
+shortdesc  = Right Stick Outer Deadzone:
+byteoffset = 54
+bitsize    = 32
+control    = spinboxf
+default    = 9200
+minimum    = 0
+maximum    = 10000
+step       = 1
+decimals   = 2
+
+[DeadzonesI]
+group      = true
+groupcol = false
+shortdesc  = Right Stick Inner Deadzone:
+byteoffset = 58
+bitsize    = 32
+control    = spinboxf
+default    = 3350
+minimum    = 0
+maximum    = 10000
+step       = 1
+decimals   = 2
+
+[Calibration]
+group      = false
+groupcol = false
+shortdesc  = Delay (ms):
+byteoffset = 62
+bitsize    = 32
+control    = slider
+default    = 3000
+minimum    = 500
+maximum    = 10000
+step       = 500
+
+[CalibrationS]
+group      = true
+groupcol = false
+shortdesc  = Samples:
+byteoffset = 66
+bitsize    = 32
+control    = slider
+default    = 300
+minimum    = 100
+maximum    = 10000
+step	   = 100
+
+</cfgdesc>
+*/
+
+//Constants
+#define PAD_OTHER  0
+#define PAD_PS4    1
+#define PAD_SWITCH 2
+uint8 PAD_IDS[5] = { 6, 5, 4, 2, 1 };
+uint8 PAD_IDS_LENGHT = 5;
+
+//Persistent memory addereses
+#define ADDR_ACTIVATE_L1 					0
+#define ADDR_ACTIVATE_L2 					1
+#define ADDR_ACTIVATE_R1 					2
+#define ADDR_ACTIVATE_R2 					3
+#define ADDR_ACTIVATE_ALWAYS_ON 			4
+		
+#define ADDR_BASE_SENSITIVITY_X 			5
+#define ADDR_BASE_SENSITIVITY_Y 			9
+#define ADDR_SENSITIVITY_MULTIPLIER_INDEX 	13
+#define ADDR_SENSITIVITY_MULTIPLIER_0 		14
+#define ADDR_SENSITIVITY_MULTIPLIER_1 		18
+#define ADDR_SENSITIVITY_MULTIPLIER_2 		22
+#define ADDR_SENSITIVITY_MULTIPLIER_3 		26
+#define ADDR_SENSITIVITY_MULTIPLIER_4 		30
+#define ADDR_SENSITIVITY_MULTIPLIER_5 		34
+#define ADDR_SENSITIVITY_MULTIPLIER_6 		38
+
+#define ADDR_DEADZONE_X						42
+#define ADDR_DEADZONE_Y						46
+#define ADDR_DEADZONE_D						50
+		
+#define ADDR_OUTER_DEADZONE					54
+#define ADDR_INNER_DEADZONE					58
+
+#define ADDR_CALIBRATION_DELAY				62
+#define ADDR_CALIBRATION_SAMPLES			66
+
+#define ADDR_CALIB_PS4_X 					92
+#define ADDR_CALIB_PS4_Y 					96
+#define ADDR_CALIB_PS4_Z 					100
+		
+#define ADDR_CALIB_SWITCH_X 				104
+#define ADDR_CALIB_SWITCH_Y 				108
+#define ADDR_CALIB_SWITCH_Z 				116
+		
+#define ADDR_CALIB_OTHER_X 					116
+#define ADDR_CALIB_OTHER_Y 					120
+#define ADDR_CALIB_OTHER_Z 					124
+
+
+#define LED_DELAY							2000
+
+//Variables
+fix32 mCalibOffsetX = 0.0;
+fix32 mCalibOffsetY = 0.0;
+fix32 mCalibOffsetZ = 0.0;
+
+bool mIsActivatedCalibrating = FALSE;
+bool mIsActivatedIncreaseSensitivity = FALSE;
+bool mIsActivatedDecreaseSensitivity = FALSE;
+bool mIsActivatedLeds = FALSE;
+
+fix32 mBaseSensitivityX = 35.0;
+fix32 mBaseSensitivityY = 35.0;
+uint8 mSensitivityMultiplierIndex = 2; 
+fix32 mSensitivityMultipliersArray[7] = { 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0 };
+
+uint32 mCalibrationDelay = 3000;
+uint32 mCalibrationSamples = 300;
+uint32 mCalibrationCycleIndex = 0;
+
+fix32 mDeadzoneX = 30.0;  // Deadzone GYRO_1_YZ Input
+fix32 mDeadzoneY = 30.0;  // Deadzone GYRO_1_YX Input
+fix32 mDeadzoneD = 0.13;  // Deadzone Diagonal input
+
+fix32 mOuterDeadzone = 92.00;
+fix32 mInnerDeadzone = 33.5;
+
+bool mIsActivateL1 = FALSE;
+bool mIsActivateL2 = TRUE;
+bool mIsActivateR1 = FALSE;
+bool mIsActivateR2 = TRUE;
+bool mIsAlwaysOn = FALSE;
+bool mIsMotionAimingOn = TRUE;
+
+uint32 mTimeCounter = 0;
+
+bool mIsActivatedDebugging = FALSE;
+
+init
+{
+	pmem_load();
+
+	printf("Values loaded:");
+
+	pmem_read(ADDR_ACTIVATE_L1, &mIsActivateL1);
+	printf("Activate L1: %d", mIsActivateL1);
+	pmem_read(ADDR_ACTIVATE_L2, &mIsActivateL2);
+	printf("Activate L2: %d", mIsActivateL2);
+	pmem_read(ADDR_ACTIVATE_R1, &mIsActivateR1);
+	printf("Activate R1: %d", mIsActivateR1);
+	pmem_read(ADDR_ACTIVATE_R2, &mIsActivateR2);
+	printf("Activate R2: %d", mIsActivateR2);
+	pmem_read(ADDR_ACTIVATE_ALWAYS_ON, &mIsAlwaysOn);
+	printf("Activate AlwaysOn: %d", mIsAlwaysOn);
+
+	pmem_read(ADDR_BASE_SENSITIVITY_X, &mBaseSensitivityX);
+	printf("Base sensitivity X: %f", mBaseSensitivityX);
+	pmem_read(ADDR_BASE_SENSITIVITY_Y, &mBaseSensitivityY);
+	printf("Base sensitivity Y: %f", mBaseSensitivityY);
+
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_INDEX, &mSensitivityMultiplierIndex);
+	mSensitivityMultiplierIndex--;
+	printf("Sensitivity multiplier index: %d", mSensitivityMultiplierIndex);
+
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_0, &mSensitivityMultipliersArray[0]);
+	printf("Sensitivity multiplier [0]: %f", mSensitivityMultipliersArray[0]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_1, &mSensitivityMultipliersArray[1]);
+	printf("Sensitivity multiplier [1]: %f", mSensitivityMultipliersArray[1]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_2, &mSensitivityMultipliersArray[2]);
+	printf("Sensitivity multiplier [2]: %f", mSensitivityMultipliersArray[2]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_3, &mSensitivityMultipliersArray[3]);
+	printf("Sensitivity multiplier [3]: %f", mSensitivityMultipliersArray[3]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_4, &mSensitivityMultipliersArray[4]);
+	printf("Sensitivity multiplier [4]: %f", mSensitivityMultipliersArray[4]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_5, &mSensitivityMultipliersArray[5]);
+	printf("Sensitivity multiplier [5]: %f", mSensitivityMultipliersArray[5]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_6, &mSensitivityMultipliersArray[6]);
+	printf("Sensitivity multiplier [6]: %f", mSensitivityMultipliersArray[6]);
+
+	pmem_read(ADDR_DEADZONE_X, &mDeadzoneX);
+	printf("Deadzone X: %f", mDeadzoneX);
+	pmem_read(ADDR_DEADZONE_Y, &mDeadzoneY);
+	printf("Deadzone Y: %f", mDeadzoneY);
+	pmem_read(ADDR_DEADZONE_D, &mDeadzoneD);
+	printf("Deadzone D: %f", mDeadzoneD);
+
+	pmem_read(ADDR_OUTER_DEADZONE, &mOuterDeadzone);
+	printf("Outer Deadzone: %f", mOuterDeadzone);
+	pmem_read(ADDR_INNER_DEADZONE, &mInnerDeadzone);
+	printf("Inner Deadzone: %f", mInnerDeadzone);
+
+	pmem_read(ADDR_CALIBRATION_DELAY, &mCalibrationDelay);
+	printf("Calibration Delay: %d", mCalibrationDelay);
+	pmem_read(ADDR_CALIBRATION_SAMPLES, &mCalibrationSamples);
+	printf("Calibration Samples: %d", mCalibrationSamples);
+	
+	FetchCalibration();
+}
+
+main
+{
+	ResetLeds();
+	
+	ActivateIncreaseSensitivity(get_val(BUTTON_6) > 0.0 && get_prev(BUTTON_10) == 0.0 && get_actual(BUTTON_10) > 0.0);
+	IncreaseSensitivity();
+	ActivateDecreaseSensitivity(get_val(BUTTON_6) > 0.0 && get_prev(BUTTON_11) == 0.0 && get_actual(BUTTON_11) > 0.0);
+	DecreaseSensitivity();
+	
+	ActivateCalibration(get_val(BUTTON_1) > 0.0 && get_val(BUTTON_6) > 0.0 && get_val(BUTTON_9) > 0.0);
+	Calibrate();
+
+	Debug();
+	
+	ToggleAlwaysOn(get_val(BUTTON_6) > 0.0 && get_prev(BUTTON_13) == 0.0 && get_actual(BUTTON_13) > 0.0);
+	ToggleMotionAiming(get_val(BUTTON_6) > 0.0 && get_prev(BUTTON_12) == 0.0 && get_actual(BUTTON_12) > 0.0);
+	
+	MotionAiming(mIsMotionAimingOn && !mIsActivatedCalibrating && !mIsActivatedDebugging &&
+				 (abs(get_val(STICK_1_X)) <= mDeadzoneX && (abs(get_val(STICK_1_Y)) <= mDeadzoneY)) && 
+					(mIsAlwaysOn ||
+					(mIsActivateL1 && (get_val(BUTTON_7) > 98.0)) ||
+					(mIsActivateL2 && (get_val(BUTTON_8) > 98.0)) ||
+					(mIsActivateR1 && (get_val(BUTTON_4) > 98.0)) ||
+					(mIsActivateR2 && (get_val(BUTTON_5) > 98.0))));
+
+	AddInnerDeadzone();
+	AddOuterDeadzone();
+	
+	MimicTouch(get_val(BUTTON_2) > 90.0 && GetPadType() != PAD_PS4);
+}
+
+void ResetLeds()
+{
+	if(mIsActivatedLeds)
+	{
+		if(mTimeCounter > LED_DELAY)
+		{
+			led_reset();
+			mTimeCounter = 0;
+		}
+		else
+		{
+			mTimeCounter += elapsed_time();
+		}
+	}
+}
+
+void ActivateIncreaseSensitivity(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		if(mSensitivityMultiplierIndex < 6) //increase sensivity multiplier
+			mIsActivatedIncreaseSensitivity = TRUE;
+		else
+		{
+			SetLeds(7);
+			mIsActivatedLeds = TRUE;
+		}
+	}
+}
+
+void IncreaseSensitivity()
+{
+	if(mIsActivatedIncreaseSensitivity)
+	{
+		mSensitivityMultiplierIndex = mSensitivityMultiplierIndex + 1;
+		SetLeds(mSensitivityMultiplierIndex+1);
+		SaveSensitivityIndex();
+		mIsActivatedIncreaseSensitivity = FALSE;
+		mIsActivatedLeds = TRUE;
+	}		
+}
+
+void ActivateDecreaseSensitivity(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		if(mSensitivityMultiplierIndex > 0) //decrease sensivity multiplier
+			mIsActivatedDecreaseSensitivity = TRUE;
+		else
+		{
+			SetLeds(0);
+			mIsActivatedLeds = TRUE;
+		}
+	}
+}
+
+void DecreaseSensitivity()
+{
+	if(mIsActivatedDecreaseSensitivity)
+	{
+		mSensitivityMultiplierIndex = mSensitivityMultiplierIndex - 1;
+		SetLeds(mSensitivityMultiplierIndex+1);
+		SaveSensitivityIndex();
+		mIsActivatedDecreaseSensitivity = FALSE;
+		mIsActivatedLeds = TRUE;
+	}
+}
+
+void ActivateCalibration(bool aIsActivated)
+{
+	if(aIsActivated && !mIsActivatedCalibrating)
+	{
+		mCalibOffsetX = 0.0;
+		mCalibOffsetY = 0.0;
+		mCalibOffsetZ = 0.0;
+		mCalibrationCycleIndex = 0;
+		mTimeCounter = 0;
+		SetLeds(6);
+		printf("Calibration started. Delay: %d, Samples: %d", mCalibrationDelay, mCalibrationSamples);
+		mIsActivatedCalibrating = TRUE;
+	}
+}
+
+void Calibrate()
+{
+	if(mIsActivatedCalibrating)
+	{
+		mTimeCounter += elapsed_time();
+		if(mTimeCounter > mCalibrationDelay)
+		{
+			SetLeds(15);
+			if(mCalibrationCycleIndex < mCalibrationSamples)
+			{
+				mCalibrationCycleIndex += 1;
+
+				mCalibOffsetX += get_actual(GYRO_1_X);
+				mCalibOffsetY += get_actual(GYRO_1_Y);
+				mCalibOffsetZ += get_actual(GYRO_1_Z);
+			}
+			else
+			{
+				mCalibOffsetX /= (fix32)mCalibrationSamples;
+				mCalibOffsetY /= (fix32)mCalibrationSamples;
+				mCalibOffsetZ /= (fix32)mCalibrationSamples;
+
+				StoreCalibration();
+				
+				mTimeCounter = 0;
+				led_reset();
+				mIsActivatedCalibrating = FALSE;
+			}
+		}
+	}
+}
+
+void FetchCalibration()
+{
+	uint8 padType = GetPadType();
+	pmem_load();
+	switch(padType)
+	{
+		case PAD_OTHER:
+			pmem_read(ADDR_CALIB_OTHER_X, &mCalibOffsetX);
+			pmem_read(ADDR_CALIB_OTHER_Y, &mCalibOffsetY);
+			pmem_read(ADDR_CALIB_OTHER_Z, &mCalibOffsetZ);
+			printf("Other gamepad calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+		
+		case PAD_PS4:
+			pmem_read(ADDR_CALIB_PS4_X, &mCalibOffsetX);
+			pmem_read(ADDR_CALIB_PS4_Y, &mCalibOffsetY);
+			pmem_read(ADDR_CALIB_PS4_Z, &mCalibOffsetZ);
+			printf("DualShock 4 calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+		
+		case PAD_SWITCH:
+			pmem_read(ADDR_CALIB_SWITCH_X, &mCalibOffsetX);
+			pmem_read(ADDR_CALIB_SWITCH_Y, &mCalibOffsetY);
+			pmem_read(ADDR_CALIB_SWITCH_Z, &mCalibOffsetZ);
+			printf("Pro Controller calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+	}
+}
+
+void StoreCalibration()
+{
+	uint8 padType = GetPadType();
+	printf("Pad type set: %d", padType);
+	switch(padType)
+	{
+		case PAD_OTHER:
+			pmem_write(ADDR_CALIB_OTHER_X, mCalibOffsetX);
+			pmem_write(ADDR_CALIB_OTHER_Y, mCalibOffsetY);
+			pmem_write(ADDR_CALIB_OTHER_Z, mCalibOffsetZ);
+			printf("Stored other gamepad calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+		
+		case PAD_PS4:
+			pmem_write(ADDR_CALIB_PS4_X, mCalibOffsetX);
+			pmem_write(ADDR_CALIB_PS4_Y, mCalibOffsetY);
+			pmem_write(ADDR_CALIB_PS4_Z, mCalibOffsetZ);
+			printf("Stored DualShock 4 calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+		
+		case PAD_SWITCH:
+			pmem_write(ADDR_CALIB_SWITCH_X, mCalibOffsetX);
+			pmem_write(ADDR_CALIB_SWITCH_Y, mCalibOffsetY);
+			pmem_write(ADDR_CALIB_SWITCH_Z, mCalibOffsetZ);
+			printf("Stored Pro Controller calibration. X: %f, Y: %f, Z: %f", mCalibOffsetX, mCalibOffsetY, mCalibOffsetZ);
+		break;
+	}
+	pmem_save();
+}
+
+uint8 GetPadType()
+{
+    uint8 status, protocol, device, i = 0;
+	while(i < PAD_IDS_LENGHT)
+	{
+        status = port_status(PAD_IDS[i], &protocol, &device);
+        if(status)
+		{
+			if(protocol == PROTOCOL_PS4)
+				return PAD_PS4;
+			else if(protocol == PROTOCOL_SWITCH)
+				return PAD_SWITCH;
+			else
+				return PAD_OTHER;
+		}
+		i++;
+    }
+    return(-1);
+}
+
+void Debug()
+{
+	if(mIsActivatedCalibrating || !mIsActivatedDebugging)
+		return;
+	
+	set_val(GYRO_1_X, (get_val(GYRO_1_X) - mCalibOffsetX) * 1000.0);
+	set_val(GYRO_1_Y, (get_val(GYRO_1_Y) - mCalibOffsetY) * 1000.0);
+	set_val(GYRO_1_Z, (get_val(GYRO_1_Z) - mCalibOffsetZ) * 1000.0);
+}
+
+
+void ToggleAlwaysOn(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		mIsAlwaysOn = !mIsAlwaysOn;
+		pmem_write(ADDR_ACTIVATE_ALWAYS_ON, mIsAlwaysOn);
+		pmem_save();
+	}
+}
+
+void ToggleMotionAiming(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		mIsMotionAimingOn = !mIsMotionAimingOn;
+	}
+}
+
+void MotionAiming(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		static fix32 accelX, accelY;
+		static fix32 stickX, stickY;
+		if(accelX != get_actual(GYRO_1_Z) || accelY != get_actual(GYRO_1_X))
+		{
+			accelX = get_actual(GYRO_1_Z);
+			accelY = get_actual(GYRO_1_X);
+			
+			stickX = (accelX - mCalibOffsetZ) * mBaseSensitivityX * mSensitivityMultipliersArray[mSensitivityMultiplierIndex];
+			stickY = (accelY - mCalibOffsetX) * mBaseSensitivityY * mSensitivityMultipliersArray[mSensitivityMultiplierIndex];
+
+			fix32 signalX = (stickX < 0.0) ? (stickX = inv(stickX), -1.0) : (stickX > 0.0) ? 1.0 : 0.0;
+			fix32 signalY = (stickY < 0.0) ? (stickY = inv(stickY), -1.0) : (stickY > 0.0) ? 1.0 : 0.0;
+			fix32 angle = atan2(stickY, stickX);
+	 
+			stickX = clamp(((mDeadzoneX * pow(cos(angle), mDeadzoneD)) + stickX) * signalX, -100.0, 100.0);
+			stickY = clamp(((mDeadzoneY * pow(sin(angle), mDeadzoneD)) + stickY) * signalY, -100.0, 100.0);
+		}
+		set_val(STICK_1_X, stickX);
+		set_val(STICK_1_Y, stickY);
+		return;
+	}
+}
+
+void AddInnerDeadzone()
+{
+	if(abs(get_val(STICK_1_Y)) > 5.00 && abs(get_val(STICK_1_Y)) < mInnerDeadzone)
+		set_val(STICK_1_Y, 0.0);
+
+	if(abs(get_val(STICK_1_X)) > 5.00 && abs(get_val(STICK_1_X)) < mInnerDeadzone)
+		set_val(STICK_1_X, 0.0);
+}
+
+void AddOuterDeadzone()
+{
+	if(get_val(STICK_1_Y) <= mOuterDeadzone * -1.00)
+		set_val(STICK_1_Y, -100);
+
+	if(get_val(STICK_1_Y) >= mOuterDeadzone)
+		set_val(STICK_1_Y, 100);
+
+	if(get_val(STICK_1_X) <= mOuterDeadzone * -1.00)
+		set_val(STICK_1_X, -100);
+
+	if(get_val(STICK_1_X) >= mOuterDeadzone)
+		set_val(STICK_1_X, 100);
+}
+
+
+void SaveSensitivityIndex()
+{
+	printf("Sensitivity Index: %d, Sensitivity Multiplier: %f", mSensitivityMultiplierIndex, mSensitivityMultipliersArray[mSensitivityMultiplierIndex]);
+	pmem_write(ADDR_SENSITIVITY_MULTIPLIER_INDEX, mSensitivityMultiplierIndex);
+	pmem_save();
+}
+
+void SetLeds(uint8 aLeds)
+{
+	if(aLeds == 1)
+		aLeds = 0;
+	
+    fix32 bits[4];
+	bits[0] = (aLeds & (1 << 0)) == 0 ? 0.0 : 100.0;
+	bits[1] = (aLeds & (1 << 1)) == 0 ? 0.0 : 100.0;
+	bits[2] = (aLeds & (1 << 2)) == 0 ? 0.0 : 100.0;
+	bits[4] = (aLeds & (1 << 3)) == 0 ? 0.0 : 100.0;
+	
+	led_set(LED_1, bits[0], 800);
+	led_set(LED_2, bits[1], 800);
+	led_set(LED_3, bits[2], 800);
+	led_set(LED_4, bits[3], 800);
+}
+
+void MimicTouch(bool aIsActivated)
+{
+	if(aIsActivated)
+	{
+		set_val(BUTTON_19, 100.0);
+		set_val(POINT_1_X, get_actual(STICK_1_X));
+		set_val(POINT_1_Y, get_actual(STICK_1_Y));
+		set_val(STICK_1_X, 0.0);
+		set_val(STICK_1_Y, 0.0);
+	}
+}
