@@ -328,8 +328,8 @@ bool mIsActivatedLeds = FALSE;
 
 fix32 mBaseSensitivityX = 35.0;
 fix32 mBaseSensitivityY = 35.0;
-uint8 mSensitivityMultiplierIndex = 2; 
-fix32 mSensitivityMultipliersArray[7] = { 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0 };
+uint8 mSensitivityMultiplierIndex = 3; 
+fix32 mSensitivityMultipliersArray[8] = { 0.1, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0 }; //For simplicity starting index is 1, fist element is ignored
 
 uint32 mCalibrationDelay = 3000;
 uint32 mCalibrationSamples = 300;
@@ -376,23 +376,22 @@ init
 	printf("Base sensitivity Y: %f", mBaseSensitivityY);
 
 	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_INDEX, &mSensitivityMultiplierIndex);
-	mSensitivityMultiplierIndex--;
 	printf("Sensitivity multiplier index: %d", mSensitivityMultiplierIndex);
 
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_0, &mSensitivityMultipliersArray[0]);
-	printf("Sensitivity multiplier [0]: %f", mSensitivityMultipliersArray[0]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_1, &mSensitivityMultipliersArray[1]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_0, &mSensitivityMultipliersArray[1]);
 	printf("Sensitivity multiplier [1]: %f", mSensitivityMultipliersArray[1]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_2, &mSensitivityMultipliersArray[2]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_1, &mSensitivityMultipliersArray[2]);
 	printf("Sensitivity multiplier [2]: %f", mSensitivityMultipliersArray[2]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_3, &mSensitivityMultipliersArray[3]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_2, &mSensitivityMultipliersArray[3]);
 	printf("Sensitivity multiplier [3]: %f", mSensitivityMultipliersArray[3]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_4, &mSensitivityMultipliersArray[4]);
-	printf("Sensitivity multiplier [4]: %f", mSensitivityMultipliersArray[4]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_5, &mSensitivityMultipliersArray[5]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_3, &mSensitivityMultipliersArray[4]);
+	printf("Sensitivity multiplier [4]: %f", mSensitivityMultipliersArray[5]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_4, &mSensitivityMultipliersArray[5]);
 	printf("Sensitivity multiplier [5]: %f", mSensitivityMultipliersArray[5]);
-	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_6, &mSensitivityMultipliersArray[6]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_5, &mSensitivityMultipliersArray[6]);
 	printf("Sensitivity multiplier [6]: %f", mSensitivityMultipliersArray[6]);
+	pmem_read(ADDR_SENSITIVITY_MULTIPLIER_6, &mSensitivityMultipliersArray[7]);
+	printf("Sensitivity multiplier [7]: %f", mSensitivityMultipliersArray[7]);
 
 	pmem_read(ADDR_DEADZONE_X, &mDeadzoneX);
 	printf("Deadzone X: %f", mDeadzoneX);
@@ -465,7 +464,7 @@ void ActivateIncreaseSensitivity(bool aIsActivated)
 {
 	if(aIsActivated)
 	{
-		if(mSensitivityMultiplierIndex < 6) //increase sensivity multiplier
+		if(mSensitivityMultiplierIndex < 7) //increase sensivity multiplier
 			mIsActivatedIncreaseSensitivity = TRUE;
 		else
 		{
@@ -479,8 +478,8 @@ void IncreaseSensitivity()
 {
 	if(mIsActivatedIncreaseSensitivity)
 	{
-		mSensitivityMultiplierIndex = mSensitivityMultiplierIndex + 1;
-		SetLeds(mSensitivityMultiplierIndex+1);
+		mSensitivityMultiplierIndex++;
+		SetLeds(mSensitivityMultiplierIndex);
 		SaveSensitivityIndex();
 		mIsActivatedIncreaseSensitivity = FALSE;
 		mIsActivatedLeds = TRUE;
@@ -491,7 +490,7 @@ void ActivateDecreaseSensitivity(bool aIsActivated)
 {
 	if(aIsActivated)
 	{
-		if(mSensitivityMultiplierIndex > 0) //decrease sensivity multiplier
+		if(mSensitivityMultiplierIndex > 1) //decrease sensivity multiplier
 			mIsActivatedDecreaseSensitivity = TRUE;
 		else
 		{
@@ -505,8 +504,8 @@ void DecreaseSensitivity()
 {
 	if(mIsActivatedDecreaseSensitivity)
 	{
-		mSensitivityMultiplierIndex = mSensitivityMultiplierIndex - 1;
-		SetLeds(mSensitivityMultiplierIndex+1);
+		mSensitivityMultiplierIndex--;
+		SetLeds(mSensitivityMultiplierIndex);
 		SaveSensitivityIndex();
 		mIsActivatedDecreaseSensitivity = FALSE;
 		mIsActivatedLeds = TRUE;
@@ -538,7 +537,7 @@ void Calibrate()
 			SetLeds(15);
 			if(mCalibrationCycleIndex < mCalibrationSamples)
 			{
-				mCalibrationCycleIndex += 1;
+				mCalibrationCycleIndex++;
 
 				mCalibOffsetX += get_actual(GYRO_1_X);
 				mCalibOffsetY += get_actual(GYRO_1_Y);
